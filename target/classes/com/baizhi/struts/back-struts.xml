@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd" >
+<struts>
+	<include file="com/baizhi/struts/admin-struts.xml"></include>
+	<package name="back" extends="struts-default">
+		<interceptors>
+			<interceptor name="back" class="com.baizhi.inceptor.BackInceptor"></interceptor>
+			<interceptor-stack name="mybackstack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="back"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<global-results>
+			<result name="loginAdmin" type="redirect">
+				/index.jsp
+			</result>	
+		</global-results>
+	</package>
+</struts>

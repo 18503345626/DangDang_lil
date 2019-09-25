@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd" >
+<struts>
+	<include file="com/baizhi/struts/back-struts.xml"></include>
+	<include file="com/baizhi/struts/book-struts.xml"></include>
+	<package name="user" extends="back" namespace="/user">
+		<action name="login" class="com.baizhi.action.UserAction" method="login">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/book</param>
+				<param name="actionName">main</param>
+			</result>
+			<result name="error">/front/user/login_form.jsp</result>
+		</action>
+		<action name="register" class="com.baizhi.action.UserAction" method="register">
+			<result name="success" type="redirectAction">
+				getCode
+			</result>
+			<result name="error">/front/user/register_form.jsp</result>
+		</action>
+		<action name="getCode" class="com.baizhi.action.UserAction" method="getCode">
+			<result name="success" type="redirect">
+				/front/user/verify_form.jsp
+			</result>
+		</action>
+		<action name="registerOk" class="com.baizhi.action.UserAction" method="registerOk">
+			<result name="success" type="redirect">
+				/front/user/register_ok.jsp
+			</result>
+			<result name="error">/front/user/verify_form.jsp</result>
+		</action>
+		<action name="logout" class="com.baizhi.action.UserAction" method="logout">
+			<result name="success" type="redirectAction">
+				<param name="namespace">/book</param>
+				<param name="actionName">main</param>
+			</result>
+		</action>
+		<action name="selectAll" class="com.baizhi.action.UserAction" method="selectAll">
+			<interceptor-ref name="mybackstack"></interceptor-ref>
+			<result name="success">/back/user/show.jsp</result>
+		</action>
+		<action name="changeStatus" class="com.baizhi.action.UserAction" method="changeStatus">
+			<interceptor-ref name="mybackstack"></interceptor-ref>
+			<result name="success" type="redirectAction">selectAll</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd" >
+<struts>
+	<include file="com/baizhi/struts/front-struts.xml"></include>
+	<package name="address" extends="inter" namespace="/address">
+		<action name="selectAddress" class="com.baizhi.action.AddressAction" method="selectAddress">
+			<interceptor-ref name="myfrontstack"></interceptor-ref>
+			<result name="success">/front/order/address_form.jsp</result>
+		</action>
+	</package>
+</struts>

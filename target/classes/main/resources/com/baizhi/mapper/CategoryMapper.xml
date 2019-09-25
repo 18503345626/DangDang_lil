@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.CategoryDAO">
+	<resultMap type="Category" id="resl">
+		<id column="fid" property="category_Id"/>
+		<result column="fname" property="name"/>
+		<result column="fpatentid" property="parent_Id"/>
+		<result column="flevels" property="levels"/>
+		<association property="category" javaType="Category">
+			<id column="did" property="category_Id"/>
+			<result column="dname" property="name"/>
+			<result column="dpatentid" property="parent_Id"/>
+			<result column="dlevels" property="levels"/>
+		</association>
+	</resultMap>
+	<resultMap type="Category" id="res2">
+		<id column="fid" property="category_Id"/>
+		<result column="fname" property="name"/>
+		<result column="fpatentid" property="parent_Id"/>
+		<result column="flevels" property="levels"/>
+		<collection property="son" ofType="Category">
+			<id column="did" property="category_Id"/>
+			<result column="dname" property="name"/>
+			<result column="dpatentid" property="parent_Id"/>
+			<result column="dlevels" property="levels"/>
+		</collection>
+	</resultMap>
+	<select id="selectAll" resultMap="resl">
+		select f.category_id fid,f.name fname,f.parent_id fpatentid,f.levels flevels,
+			   d.category_id did,d.name dname,d.parent_id dpatentid,d.levels dlevels
+		from dd_category f left join dd_category d 
+		on f.parent_id=d.category_id
+	</select>
+	<insert id="addOneFirst">
+		insert into dd_category(category_id,name,levels) values(#{category_Id},#{name},#{levels})
+	</insert>
+	<select id="selectAllFirst" resultType="Category">
+		select category_id,name,parent_id,levels from dd_category where levels=1
+	</select>
+	<insert id="addOneSecond">
+		insert into dd_category values(#{category_Id},#{name},#{parent_Id},#{levels})
+	</insert>
+	<select id="selectById" resultType="Category">
+		select category_id,name,parent_id,levels from dd_category where parent_Id=#{id}
+	</select>
+	<delete id="deleteOne">
+		delete from dd_category where category_Id=#{id}
+	</delete>
+	<select id="selectAllSecond" resultType="Category">
+		select category_id,name,parent_id,levels from dd_category where levels=2
+	</select>
+	<select id="selectFirst" resultMap="res2">
+		select f.category_id fid,f.name fname,f.parent_id fpatentid,f.levels flevels,
+			   d.category_id did,d.name dname,d.parent_id dpatentid,d.levels dlevels
+		from dd_category f left join dd_category d 
+		on f.category_id=d.parent_id
+		where f.levels=1
+	</select>
+</mapper>

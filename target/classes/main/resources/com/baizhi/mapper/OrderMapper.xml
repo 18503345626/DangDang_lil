@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.OrderDAO">
+	<resultMap type="Order" id="oraMap">
+		<id column="order_id" property="order_id"/>
+		<result column="order_num" property="order_num"/>
+		<result column="total" property="total"/>
+		<result column="status" property="status"/>
+		<result column="create_date" property="create_date"/>
+		<association property="address" javaType="Address">
+			<id column="address_id" property="address_id"/>
+			<result column="name" property="name"/>
+			<result column="local" property="local"/>
+			<result column="zip_code" property="zip_code"/>
+			<result column="phone" property="phone"/>
+		</association>
+	</resultMap>
+	<select id="selectBackAll" resultMap="oraMap">
+		select o.order_id,o.order_num,o.total,o.status,o.create_date,
+		a.name,a.local from dd_order o left join dd_address a
+		on o.address_id=a.address_id
+	</select>
+	<insert id="addOneOrder">
+		insert into dd_order 
+		values(#{order_id},#{order_num},#{total},#{create_date},#{status},#{address_id},#{user_id})
+	</insert>
+	
+	
+	<resultMap type="Order" id="resMap">
+		<id column="order_id" property="order_id"/>
+		<result column="order_num" property="order_num"/>
+		<result column="total" property="total"/>
+		<result column="status" property="status"/>
+		<collection property="list" ofType="Item">
+			<id column="item_id" property="item_id"/>
+			<result column="book_id" property="book_id"/>
+			<result column="order_id" property="order_id"/>
+			<result column="count" property="count"/>
+			<association property="book" javaType="Book">
+				<id column="book_id" property="book_id"/>
+				<result column="name" property="name"/>
+				<result column="price" property="price"/>
+				<result column="dprice" property="dprice"/>
+				<result column="cover" property="cover"/>
+			</association>
+		</collection>
+	</resultMap>
+	<select id="orderDetail" resultMap="resMap">
+		select * FROM dd_order o left join dd_item i ON o.order_id=i.order_id left join
+		dd_book b on i.book_Id=b.book_Id where o.order_Id=#{id}
+	</select>
+</mapper>

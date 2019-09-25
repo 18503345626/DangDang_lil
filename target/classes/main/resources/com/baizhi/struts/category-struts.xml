@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd" >
+<struts>
+	<include file="com/baizhi/struts/back-struts.xml"></include>
+	<package name="p" extends="back" namespace="/category">
+		<action name="selectAll" class="com.baizhi.action.CategoryAction" method="selectAll">
+			<interceptor-ref name="mybackstack"></interceptor-ref>
+			<result name="success">/back/category/show.jsp</result>
+		</action>
+		<action name="addOneFirst" class="com.baizhi.action.CategoryAction" method="addOneFirst">
+			<interceptor-ref name="mybackstack"></interceptor-ref>
+			<result name="success" type="redirectAction">selectAll</result>
+		</action>
+		<action name="selectAllFirst" class="com.baizhi.action.CategoryAction" method="selectAllFirst">
+			<interceptor-ref name="mybackstack"></interceptor-ref>
+			<result name="success">/back/category/add-second.jsp</result>
+		</action> 
+		<action name="addOneSecond" class="com.baizhi.action.CategoryAction" method="addOneSecond">
+			<interceptor-ref name="mybackstack"></interceptor-ref>
+			<result name="success" type="redirectAction">selectAll</result>
+		</action>
+		<action name="deleteOne" class="com.baizhi.action.CategoryAction" method="deleteOne">
+			<interceptor-ref name="mybackstack"></interceptor-ref>
+			<result name="success" type="redirectAction">selectAll</result>
+		</action>
+		<action name="selectAllSecond" class="com.baizhi.action.CategoryAction" method="selectAllSecond">
+			<interceptor-ref name="mybackstack"></interceptor-ref>
+			<result name="success">/back/book/add.jsp</result>
+		</action>
+	</package>
+	
+</struts>

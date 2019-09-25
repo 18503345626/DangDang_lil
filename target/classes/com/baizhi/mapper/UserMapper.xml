@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.UserDAO">
+	<select id="login" resultType="User">
+		select * from dd_user where email=#{email}
+	</select>
+	<insert id="register">
+		insert into dd_user(user_id,email,password,nickname,status,salt,create_date)
+		values(#{user_id},#{email},#{password},#{nickname},#{status},#{salt},#{create_date})
+	</insert>
+	<update id="updateCode">
+		update dd_user set code=#{code} where user_id=#{user_id}
+	</update>
+	<select id="selectAll" resultType="User">
+		select * from dd_user
+	</select>
+	<update id="changeStatus">
+		update dd_user set status=#{status} where user_id=#{user_id}
+	</update>
+</mapper>

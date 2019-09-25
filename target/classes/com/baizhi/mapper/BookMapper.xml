@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.BookDAO">
+	<select id="selectAll" resultType="Book">
+		select book_id,name,author,cover,press,press_date,edition,
+		print_date,impression,isbn,word_num,page_num,sizes,
+		paper,pack,price,dprice,create_date,editor_recommend,
+		content_abstract,author_abstract,director,media_commentary,
+		category_id,sale,stock from dd_book
+	</select>
+	<select id="selectByKey" resultType="Book">
+		select * from dd_book
+		<where>
+			<if test="key=='name'">name like '%${content}%'</if>
+			<if test="key=='author'">author like '%${content}%'</if>
+			<if test="key=='press'">press like '%${content}%'</if>
+		</where>
+	</select>
+
+	<delete id="deleteOne">
+		delete from dd_book where book_id=#{bookId}
+	</delete>
+	<select id="selectOneById" resultType="Book">
+		select * from dd_book where book_id=#{bookId}
+	</select>
+	<insert id="addOneBook">
+		insert into dd_book values
+		(#{book_id},#{name},#{author},#{cover},#{press},#{press_date},#{edition},
+		#{print_date},#{impression},#{isbn},#{word_num},#{page_num},#{sizes},
+		#{paper},#{pack},#{price},#{dprice},#{create_date},#{editor_recommend},
+		#{content_abstract},#{author_abstract},#{director},#{media_commentary},
+		#{category_id},#{sale},#{stock}
+		)
+	</insert>
+	<update id="updateOneBook">
+		update dd_book set 
+		name=#{name},author=#{author},<if test="cover!=null">cover=#{cover},</if>
+		press=#{press},press_date=#{press_date},edition=#{edition},
+		print_date=#{print_date},impression=#{impression},isbn=#{isbn},word_num=#{word_num},page_num=#{page_num},sizes=#{sizes},
+		paper=#{paper},pack=#{pack},price=#{price},dprice=#{dprice},editor_recommend=#{editor_recommend},
+		content_abstract=#{content_abstract},author_abstract=#{author_abstract},director=#{director},media_commentary=#{media_commentary},
+		category_id=#{category_id},stock=#{stock}
+		where book_id=#{book_id}
+	</update>
+	<select id="selectCodition" resultType="Book">
+		select * from dd_book 
+		<where>
+			<if test="create_date!=null and sale==null">
+				1=1 order by create_date desc
+			</if>
+			<if test="sale!=null and create_date==null">
+				sale!=0 order by sale desc
+			</if>
+			<if test="sale!=null and create_date!=null">
+				1=1 order by create_date desc,sale desc
+			</if>
+		</where>	
+	</select>
+<!-- 	<select id="selectSecondBook" resultType="Book">
+		select * from dd_book
+		<where>
+			<choose>
+				<when test="sid==null||sid==''">
+					category_id in (select category_Id from dd_category where parent_Id=#{fid})
+				</when>
+				<when test="sid!=null">
+					category_id=#{sid}
+				</when>
+			</choose>	
+		</where>
+	</select> -->
+	<select id="selectSecondBook" resultType="Book">
+		select b.* from (select a.*,rownum rn from (select * from dd_book
+		<where>
+			<choose>
+				<when test="sid==null||sid==''">
+					category_id in (select category_Id from dd_category where parent_Id=#{fid})
+				</when>
+				<when test="sid!=null">
+					category_id=#{sid}
+				</when>
+			</choose>	
+		</where>) a) b where rn between #{begin} and #{end}
+	</select>
+	<select id="selectCountById" resultType="java.lang.Integer">
+		select count(*) from dd_book
+		<where>
+			<choose>
+				<when test="sid==null||sid==''">
+					category_id in (select category_Id from dd_category where parent_Id=#{fid})
+				</when>
+				<when test="sid!=null">
+					category_id=#{sid}
+				</when>
+			</choose>	
+		</where>
+	</select>
+	<update id="updateOneSaleAndStock">
+		update dd_book set 
+		sale=#{sale},stock=#{stock}
+		where book_id=#{book_id}
+	</update>
+</mapper>

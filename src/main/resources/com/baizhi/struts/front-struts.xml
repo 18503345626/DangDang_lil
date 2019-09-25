@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd" >
+<struts>
+	<include file="com/baizhi/struts/user-struts.xml"></include>
+	<package name="inter" extends="struts-default">
+		<interceptors>
+			<interceptor name="front" class="com.baizhi.inceptor.FrontInceptor"></interceptor>
+			<interceptor-stack name="myfrontstack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="front"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<global-results>
+			<result name="loginUser" type="redirect">/front/user/login_form.jsp</result>
+			<result name="getCode" type="redirectAction">
+				<param name="namespace">/user</param>
+				<param name="actionName">getCode</param>
+			</result>
+		</global-results>
+	</package>
+</struts>

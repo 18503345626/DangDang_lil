@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd" >
+<struts>
+	<include file="com/baizhi/struts/front-struts.xml"></include>
+	<package name="order" extends="inter" namespace="/order">
+		<interceptors>
+			<interceptor name="nanshou" class="com.baizhi.inceptor.BackInceptor"></interceptor>
+			<interceptor-stack name="nan">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="nanshou"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<global-results>
+			<result name="loginAdmin" type="redirect">/index.jsp</result>	
+		</global-results>
+		<action name="selectBackAll" class="com.baizhi.action.OrderAction" method="selectBackAll">
+			<interceptor-ref name="nan"></interceptor-ref>
+			<result name="success">/back/order/show.jsp</result>
+		</action>
+		<action name="addOrder" class="com.baizhi.action.OrderAction" method="addOrder">
+			<interceptor-ref name="myfrontstack"></interceptor-ref>
+			<result name="success" type="redirect">/front/order/order_ok.jsp</result>
+		</action>
+		<action name="orderDetail" class="com.baizhi.action.OrderAction" method="orderDetail">
+			<interceptor-ref name="nan"></interceptor-ref>
+			<result name="success">/back/order/detail.jsp</result>
+		</action>
+	</package>
+</struts>

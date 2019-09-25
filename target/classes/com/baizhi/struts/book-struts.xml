@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" "struts-2.3.dtd" >
+<struts>
+	<include file="com/baizhi/struts/back-struts.xml"></include>
+	<package name="book" extends="back" namespace="/book">
+		<action name="selectAll" class="com.baizhi.action.BookAction" method="selectAll">
+			<interceptor-ref name="mybackstack"></interceptor-ref>
+			<result name="success">/back/book/show.jsp</result>
+		</action>
+		<action name="selectByKey" class="com.baizhi.action.BookAction" method="selectByKey">
+			<interceptor-ref name="mybackstack"></interceptor-ref>
+			<result name="success">/back/book/show.jsp</result>
+		</action>
+		<action name="addOneBook" class="com.baizhi.action.BookAction" method="addOneBook">
+			<interceptor-ref name="mybackstack"></interceptor-ref>
+			<result name="success" type="redirectAction">selectAll</result>
+		</action>
+		<action name="deleteOne" class="com.baizhi.action.BookAction" method="deleteOne">
+			<interceptor-ref name="mybackstack"></interceptor-ref>
+			<result name="success" type="redirectAction">selectAll</result>
+		</action>
+		<action name="selectOneById" class="com.baizhi.action.BookAction" method="selectOneById">
+			<interceptor-ref name="mybackstack"></interceptor-ref>
+			<result name="success">/back/book/update.jsp</result>
+		</action>
+		<action name="updateOneBook" class="com.baizhi.action.BookAction" method="updateOneBook">
+			<interceptor-ref name="mybackstack"></interceptor-ref>
+			<result name="success" type="redirectAction">selectAll</result>
+		</action>
+		<action name="main" class="com.baizhi.action.BookAction" method="main">
+			<result name="success">/front/main/main.jsp</result>
+		</action>
+		<action name="selectByBookId" class="com.baizhi.action.BookAction" method="selectByBookId">
+			<result name="success">/front/main/book_detail.jsp</result>
+		</action>
+		<action name="second" class="com.baizhi.action.BookAction" method="second">
+			<result name="success">/front/main/book_list.jsp</result>
+		</action>
+	</package>
+</struts>
